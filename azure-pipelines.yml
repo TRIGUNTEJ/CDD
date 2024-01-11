@@ -9,22 +9,22 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-strategy:
-  matrix:
-    Python27:
-      python.version: '2.7'
+jobs:
+- job: BuildAndTest
+  displayName: 'Build and Test'
+  steps:
+  - task: UseJavaVersion@0
+    inputs:
+      versionSpec: '17'  # Adjust the Java version as needed
+      addToPath: true
 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
+  - script: |
+      echo 'AZURE PIPELINE'
+      echo 'CONTINUOUS INTEGRATION & CONTINUOUS DEPLOYMENT'
+    displayName: 'Print Message'
 
-- script: python "add.py"
+  - script: javac helloworld.java
+    displayName: 'Compile Java Code'
 
-- task: PythonScript@0
-  inputs:
-    scriptSource: 'inline'
-    script: |
-      print('AZURE PIPELINE')
-      print('CONTINUOUS INTEGRATION & CONTINUOUS DEPLOYMENT')
+  - script: java helloworld
+    displayName: 'Run Java Code'
