@@ -1,0 +1,30 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: BuildAndTest
+  displayName: 'Build and Test'
+  steps:
+  - task: UseJavaVersion@0
+    inputs:
+      versionSpec: '17'
+      addToPath: true
+
+  - script: |
+      echo 'AZURE PIPELINE'
+      echo 'CONTINUOUS INTEGRATION & CONTINUOUS DEPLOYMENT'
+    displayName: 'Print Message'
+
+  - script: javac helloworld.java
+    displayName: 'Compile Java Code'
+
+  - script: java helloworld
+    displayName: 'Run Java Code'
